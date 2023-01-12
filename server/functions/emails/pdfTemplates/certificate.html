@@ -1,0 +1,193 @@
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    font-family: arial, 'helvetica neue', helvetica, sans-serif;
+    color: #333333;
+  }
+
+  .main {
+    width: 100%;
+    max-width: 21cm;
+    padding: 10px;
+    margin: 0 auto;
+  }
+
+  h4 {
+    text-align: center;
+    padding: 15px;
+  }
+
+  table {
+    width: 100%;
+    margin: 0 auto;
+    border-collapse: collapse;
+  }
+
+  td {
+    padding: 10px;
+    vertical-align: top;
+    border: solid 1px black;
+  }
+
+  ul, li, ol {
+    /* list-style-position: inside; */
+    margin-left: .5rem;
+  }
+
+  .half-width {
+    width: 50%;
+    line-height: 1.5rem;
+  }
+
+  .logos {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 150px;
+    justify-content: center;
+  }
+
+  .logos div {
+    margin: 0 auto;
+    width: 33%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .ensure-logo {
+    height: 47px;
+    margin-top: 51.5px !important;
+  }
+
+  .dynamic-logo {
+    max-width: 150px;
+    max-height: 150px;
+  }
+
+  @media print {
+    body {
+      width: 21cm;
+      height: 29.7cm;
+    }
+
+    @page {
+      size: A4;
+      margin: .5cm ;
+    }
+  }
+</style>
+
+<div class="container">
+    <div class="main">
+        <table class="tab">
+
+            <div class="logos">
+                <div class='img-div'>
+                    <img class="third-width ensure-logo" src="https://ensure-leasing.herokuapp.com/img/logo.png" alt="Ensure Logo">
+                </div>
+                <div class='img-div'>
+                    <img class="third-width dynamic-logo" src="{{leaserLogo}}" alt="Leaser Logo">
+                </div>
+                <div class='img-div'>
+                    <img class="third-width dynamic-logo" src="{{agentLogo}}" alt="Agent Logo">
+                </div>
+            </div>
+
+            <h4>Forsikringscertifikat for personbil</h4>
+
+            <tr>
+                <td class='half-width'><b>Kundeoplysninger</b></td>
+                <td class='half-width'><b>Policenummer:</b>{{policyNumber}}<b> Certifikatnr.:</b>{{certificateNo}}</td>
+            </tr>
+
+            
+            <tr>
+                <td class='half-width'>
+                    <p><b>CPR./CVR nummer:</b> {{cprCvr}}</p>
+                    <p><b>Navn:</b> {{customerName}}</p>
+                    <p><b>E-mail:</b> {{customerEmail}}</p>
+                    <p><b>Partner ref.:</b> {{partnerReference}}</p>
+                </td>
+                <td class='half-width'>
+                    {{#if isStill}} 
+                    <p><b>Bemærkning:  </b>{{{agentRemarks}}}</p>
+                    {{/if}}
+                </td>
+            </tr>
+
+            <tr>
+                <td class='half-width'><b>Objekt </b></td>
+                <td class='half-width'><b>Forsikringen dækker </b></td>
+            </tr>
+
+            <tr>
+                <td class='half-width'>
+                    <p><b>Registreringsnummer:</b>{{registrationNumber}}</p>
+                    <p><b>Stelnummer:</b>{{vinNumber}}</p>
+                    <p><b>Mærke og model:</b> {{brand}}, {{model}}</p>
+                    <p><b>{{#if estimatedValue}}Køretøjets Værdi{{else}}Køretøjet's kategori{{/if}}: </b> {{#if estimatedValue}}kr. {{estimatedValue}}{{else}}{{code}}{{/if}}</p>
+                    <p><b>Indregistreringsdato: </b> {{registrationDate}}</p>
+                    <p><b>Selvrisiko: </b>kr. {{excess}} ved enhver skade.</p>
+                </td>
+                <td class='half-width'>
+                    <p><b>Obligatorisk dækning:</b></p>
+                    <p><b>Ansvarsforsikring:</b>{{#if liability}}Ja{{else}}Nej{{/if}}</p>
+                    <p><b>Kaskoforsikring:</b>Ja</p>
+                    {{#if tempCoverGlassByDefault}}
+                    <p><b>Reparation af stenslag frontrude</b></p>
+                    {{/if}}
+                    </br>
+                    {{#if tempCoverGlassByDefault}}
+                    {{else}}
+                    <p><b>Tilvalg: </b></p>
+                    <p><b>Glasdækning: </b>{{#if needGlassCoverage}}Ja{{else}}Nej{{/if}}</p>
+                    <p><b>Vejhjælp: </b>{{#if needRoadAssistance}}Ja{{else}}Nej{{/if}}</p>
+                    {{#if needRoadAssistance}} 
+                    <p>Forsikringen omfatter Alm. Brand Vejhjælp. Tlf. 38 48 88 22.</p>
+                    {{/if}}
+                    <br>
+                    {{/if}}
+                    <p>Leasingtager skal være fyldt 23 år</p>
+                </td>
+            </tr>
+            
+            <tr >
+                <td colspan="2" >
+                    <b>Vilkår:</b>
+                </td>
+            </tr>
+            
+            <tr>
+                <td  colspan="2" >
+                    <p>{{{agentTerms}}}</p>
+                </td>
+            </tr>
+
+            <tr>
+                <td  colspan="2">
+                    <b>Vejledning</b>
+                </td>
+            </tr>
+            
+            <tr>
+                <td  colspan="2" class=''>
+                    <p>{{{agentGuidance}}}</p>
+                </td>
+            </tr>
+
+            <tr>
+                <td  colspan="2" >
+                    <b>Sikring</b>
+                </td>
+            </tr>
+            
+            <tr>
+                <td  colspan="2" class=''> 
+                    <p>{{{agentProtector}}}</p>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

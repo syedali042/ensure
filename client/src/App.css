@@ -1,0 +1,28 @@
+.form-element {
+  border: 0px;
+  padding: 0;
+}
+
+.chakra-form-control > input {
+  width: 100%;
+  min-width: 0px;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  position: relative;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  transition-property: var(--chakra-transition-property-common);
+  transition-duration: var(--chakra-transition-duration-normal);
+  font-size: var(--chakra-fontSizes-sm);
+  -webkit-padding-start: var(--chakra-space-3);
+  padding-inline-start: var(--chakra-space-3);
+  -webkit-padding-end: var(--chakra-space-3);
+  padding-inline-end: var(--chakra-space-3);
+  height: var(--chakra-sizes-8);
+  border-radius: var(--chakra-radii-sm);
+  border: 1px solid;
+  border-color: inherit;
+  background: inherit;
+}
