@@ -114,9 +114,12 @@ const buildFields = async (obj) => {
       ? obj[agentF.protector.api]
       : null,
     [agentF.remark.db]: obj[agentF.remark.api] ? obj[agentF.remark.api] : null,
-    [agentF.areCodesActive.db]: obj[agentF.areCodesActive.api]
-      ? obj[agentF.areCodesActive.api]
-      : false,
+    [agentF.areCodesActive.db]:
+      obj[agentF.areCodesActive.api] !== undefined
+        ? obj[agentF.areCodesActive.api]
+        : obj[agentF.areCodesActive.api] == false
+        ? false
+        : true,
   };
 
   return await cleanFields(fields);
