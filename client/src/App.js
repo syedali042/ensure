@@ -10,6 +10,7 @@ import Body from './components/Body';
 import './App.css';
 
 function App() {
+  console.log('Here')
   return (
     <GlobalProvider>
       <ChakraProvider>
