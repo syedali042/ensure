@@ -1,8 +1,8 @@
-const Joi = require('joi');
-const utilAirtable = require('util992/functions/airtable');
+const Joi = require("joi");
+const utilAirtable = require("util992/functions/airtable");
 
-const errorsFuncs = require('../errors');
-const v = require('../../values');
+const errorsFuncs = require("../errors");
+const v = require("../../values");
 
 const f = v.fields;
 const agentF = f.agents.fields;
@@ -10,20 +10,20 @@ const agentF = f.agents.fields;
 const schema = Joi.object({
   [agentF.recordId.api]: Joi.string().required(),
 
-  [agentF.name.api]: Joi.string().trim().disallow(''),
-  [agentF.email.api]: Joi.string().trim().disallow(''),
-  [agentF.insuranceCompanyEmail.api]: Joi.string().trim().disallow(''),
+  [agentF.name.api]: Joi.string().trim().disallow(""),
+  [agentF.email.api]: Joi.string().trim().disallow(""),
+  [agentF.insuranceCompanyEmail.api]: Joi.string().trim().disallow(""),
 
-  [agentF.picture.api]: Joi.string().uri().disallow(''),
-  [agentF.logo.api]: Joi.string().uri().disallow(''),
-  [agentF.insuranceTerms.api]: Joi.string().uri().disallow(''),
+  [agentF.picture.api]: Joi.string().uri().disallow(""),
+  [agentF.logo.api]: Joi.string().uri().disallow(""),
+  [agentF.insuranceTerms.api]: Joi.string().uri().disallow(""),
 
   [agentF.terms.api]: Joi.string().trim(),
   [agentF.guidance.api]: Joi.string().trim(),
   [agentF.protector.api]: Joi.string().trim(),
   [agentF.remark.api]: Joi.string().trim(),
   [agentF.areCodesActive.api]: Joi.boolean(),
-}).options({abortEarly: false});
+}).options({ abortEarly: false });
 
 module.exports = async (req, res) => {
   const validateBody = await schema.validate(req.body);
@@ -39,7 +39,7 @@ module.exports = async (req, res) => {
 
     return res
       .status(400)
-      .send(errorsFuncs.buildError(400, messages.join(', ')));
+      .send(errorsFuncs.buildError(400, messages.join(", ")));
   }
 
   req.body = validateBody.value;
@@ -48,7 +48,7 @@ module.exports = async (req, res) => {
 
 const updateAgent = async (req, res) => {
   try {
-    const obj = {...req.jwtObj, ...req.body};
+    const obj = { ...req.jwtObj, ...req.body };
 
     const getAgentRes = await utilAirtable.get.records(
       f.agents.table,
@@ -57,8 +57,8 @@ const updateAgent = async (req, res) => {
       `{${agentF.recordId.db}} = "${obj[agentF.recordId.api]}"`
     );
 
-    if (!getAgentRes.success) throw 'internal';
-    if (getAgentRes.body.length === 0) throw 'agentNotFound';
+    if (!getAgentRes.success) throw "internal";
+    if (getAgentRes.body.length === 0) throw "agentNotFound";
 
     const record = getAgentRes.body[0];
     const recordId = record.id;
@@ -82,7 +82,7 @@ const updateAgent = async (req, res) => {
         message: `Agent updated successfully`,
       });
     } else {
-      throw 'internal';
+      throw "internal";
     }
   } catch (err) {
     const error = errorsFuncs.getError(err);
@@ -98,13 +98,13 @@ const buildFields = async (obj) => {
       ? obj[agentF.insuranceCompanyEmail.api]
       : null,
     [agentF.picture.db]: obj[agentF.picture.api]
-      ? [{url: obj[agentF.picture.api]}]
+      ? [{ url: obj[agentF.picture.api] }]
       : null,
     [agentF.logo.db]: obj[agentF.logo.api]
-      ? [{url: obj[agentF.logo.api]}]
+      ? [{ url: obj[agentF.logo.api] }]
       : null,
     [agentF.insuranceTerms.db]: obj[agentF.insuranceTerms.api]
-      ? [{url: obj[agentF.insuranceTerms.api]}]
+      ? [{ url: obj[agentF.insuranceTerms.api] }]
       : null,
     [agentF.terms.db]: obj[agentF.terms.api] ? obj[agentF.terms.api] : null,
     [agentF.guidance.db]: obj[agentF.guidance.api]
@@ -114,9 +114,12 @@ const buildFields = async (obj) => {
       ? obj[agentF.protector.api]
       : null,
     [agentF.remark.db]: obj[agentF.remark.api] ? obj[agentF.remark.api] : null,
-    [agentF.areCodesActive.db]: obj[agentF.areCodesActive.api]
-      ? obj[agentF.areCodesActive.api]
-      : false,
+    [agentF.areCodesActive.db]:
+      obj[agentF.areCodesActive.api] !== undefined
+        ? obj[agentF.areCodesActive.api]
+        : obj[agentF.areCodesActive.api] == false
+        ? false
+        : true,
   };
 
   return await cleanFields(fields);
