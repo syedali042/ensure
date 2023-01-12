@@ -1,6 +1,9 @@
 {
   "name": "ensure",
   "version": "0.0.1",
+  "engines": {
+    "node": "14.16.0"
+  },
   "description": "Ensure App",
   "main": "index.js",
   "scripts": {
